@@ -1,12 +1,12 @@
-# GAWE Web Admin
+# VTI Web Admin
 
-This is a repository for GAWE Project, contain a project of web admin.
+This is a repository for VTI Project, contain a project of web admin.
 
 ## Installation
 
 ``` bash
 # clone the repo
-$ git clone http://gitserver.medixsoft.co.id/GAWE/gawe_web_admin.git
+$ git clone https://github.com/inoreds/vti_web_app.git
 
 # go into app's directory
 $ cd my-project
