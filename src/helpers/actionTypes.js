@@ -1,0 +1,11 @@
+export const APP_LOAD = 'APP_LOAD';
+export const REDIRECT = 'REDIRECT';
+export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
+export const REGISTER = 'REGISTER';
+export const INCREMENT_COUNT = 'INCREMENT_COUNT';
+export const DECREMENT_COUNT = 'DECREMENT_COUNT';
+export const UPDATE_FIELD_REGISTRATION = 'UPDATE_FIELD_REGISTRATION';
+export const UPDATE_FIELD_AUTH = 'UPDATE_FIELD_AUTH';
+export const REQUEST_OTP = 'REQUEST_OTP';
+export const SUBMIT_OTP = 'SUBMIT_OTP';
