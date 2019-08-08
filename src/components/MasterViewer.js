@@ -35,6 +35,7 @@ class MasterViewer extends Component {
         total_page: 0,
         page_index:1,
         page_size_option:15 ,
+        page_size: 0,
         body_data_table : {search: '', start:0, length: 0},
         data_table: [],
         data_meta: {},
@@ -45,16 +46,13 @@ class MasterViewer extends Component {
         id_pk: this.props.id_pk,
         id_delete_edit:'',
         id_saved: '',
-        // id_pk_column: (this.props.id_custom) ? this.props.id_custom : this.props.id_pk_column,
         phone:'',
         on_change:'',
         add_form: this.props.add_form,
-        import_excel: this.props.import_excel,
-        blast_sms : this.props.blast_sms,
         columns_number: [{ Header: 'No', id: 'no', accessor: 'no', maxWidth: 50, 
             Cell: row => {
                 return <div className="text-center">
-                        {row.index+((this.state.page_index -1) * this.state.page_size_option + 1)}
+                        {row.index+((this.state.page_index -1) * this.state.page_size + 1)}
                     </div>}
             }],
         columns_hidden_id:
@@ -63,10 +61,8 @@ class MasterViewer extends Component {
             {   Header: 'Option', id : 'option', accessor: (this.props.id_custom) ? this.props.id_custom : this.props.id_pk_column,
                 Cell: row => {
                 return <div className="text-center">
-                            {/* <Button size="sm" className="btn-outline-dark icon mr-1 mb-1" outline color="primary" onClick={() => this.viewData()}><i className="fa fa-eye"></i></Button> */}
                             <Button size="sm" className="btn-outline-dark icon mr-1 mb-1" outline color="primary" onClick={() => this.getDataPer(row.value)}><i className="fa fa-pencil-square-o"></i></Button>
                             <Button size="sm" className="btn-outline-dark icon mr-1 mb-1" outline color="primary" onClick={() => this.setState({modal_delete:true, id_delete_edit: row.row.option_id})}><i className="fa fa-trash"></i></Button>
-                     
                        </div>
             }
         },
@@ -82,16 +78,18 @@ class MasterViewer extends Component {
         this.cancelCourse = this.cancelCourse.bind(this);
         this.onChangeEvent = this.onChangeEvent.bind(this);
         this.onChangePhone = this.onChangePhone.bind(this);
-        this.blastSMS = this.blastSMS.bind(this);
     }
     notify_berhasil = (text) => toast("Data " + this.props.title + " Berhasil " + text);
     getDataTable() {
         this.setState({ loading: true });
-        broker.fetch.get(`${this.state.url.url_get_data}?&page=${this.state.page_index}&size=${this.state.page_size_option}`).then(res => {
+        var custom_query = (this.props.custom_query) ? this.props.custom_query + '&' : '';
+        broker.fetch.get(`${this.state.url.url_get_data}?${custom_query}&page=${this.state.page_index}`).then(res => {
             const { data } = res;
-            const { meta } = data;
             if (data) {
-                this.setState({loading: false, data_table: data, data_meta: meta})
+                this.setState({loading: false, 
+                               data_table: data.data, 
+                               total_page: data.data.last_page, 
+                               page_size: data.data.per_page})
             } else {
                 
             }
@@ -125,18 +123,14 @@ class MasterViewer extends Component {
     }
 
     saveData() {
-        this.setState({ loading: true });
-        //e.preventDefault(); 
-        
-        //const body = serialize(e.target, { hash: true });
-
         const form = document.querySelector('#master-viewer-form');
         
         var body = serialize(form, { hash: true, empty: true });
         
         let validate = this.validateData(body)
-        // let validate = false;
+
         if (validate === true){
+            this.setState({ loading: true });
             let url = this.props.url.url_save_data
             let notify_status = "Disimpan"
             let type = 'post';
@@ -183,7 +177,6 @@ class MasterViewer extends Component {
     }
 
     deleteData() {
-        // broker.fetch.delete(`${this.props.url.url_delete_data}/${this.state.id_delete_edit}`)
         broker.fetch.delete(`${this.props.url.url_delete_data}/${this.state.id_delete_edit}`)
         .then(res => {
             const { data } = res;
@@ -214,7 +207,7 @@ class MasterViewer extends Component {
     }
 
     componentDidMount() {
-        this.setState({body_data_table : {search: '', start:0, length: this.state.page_size_option}}, function(){
+        this.setState({body_data_table : {search: '', start:0, length: this.state.page_size}}, function(){
             this.getDataTable();
         })
         if (this.props.column_option !== false) {
@@ -250,6 +243,7 @@ class MasterViewer extends Component {
         var value = event.target.value.replace(/-/g,"");
         this.setState({on_change: value})
     }
+
     onChangePhone(e) {
         const re = /^[0-9 ()+]+$/;
         var value = e.target.value;
@@ -261,7 +255,6 @@ class MasterViewer extends Component {
         }
     }
 
-      
     onChangeNumber = (component) => (e) => {
         
         if (this.state.numbers[component] === undefined){
@@ -269,8 +262,6 @@ class MasterViewer extends Component {
                 [component]:''
             } })
         }
-
-
         const re = /^[0-9 ()+]+$/;
         var value = e.target.value;
         if (value === '' || re.test(value)) {
@@ -278,27 +269,8 @@ class MasterViewer extends Component {
                 [component]:value
             } })
         }
-
-        // console.log(this.state.numbers[component])
     }
 
-    blastSMS(){
-        this.setState({ loading: true });
-        let body = {worker_ids: this.props.data_blast_sms.pekerja}
-        broker.fetch.post(`administrators/blast_sms_reset/pekerja`, body)
-        .then(res => {
-            const { data } = res;
-            if (data.status === true) {
-                dataStore.setters.setReloadTable(true);
-                this.setState({ loading: false });
-            } else {
-                this.setState({ loading: false });
-            }
-        }).catch(err => {
-            this.setState({ loading: false });
-        });
-         dataStore.setters.setDataBlastSMS({pekerja: []})
-    }
 
     render() {
         return (
@@ -308,11 +280,6 @@ class MasterViewer extends Component {
                     <CardHeader>
                     Data {this.props.title}
                     <div className="card-header-actions">
-                        {(this.state.blast_sms === true) &&
-                            <Button className="btn-outline-dark icon mr-1 mb-1" onClick={() => this.blastSMS()} disabled={(this.props.data_blast_sms.pekerja.length === 0) ? true : false}>
-                                <i className="fa fa-telegram"></i>
-                            </Button>
-                        }
                         {(this.state.import_excel === true) &&
                             <Button className="btn-outline-dark icon mr-1 mb-1" onClick={() => this.props.history.push(`${this.state.url.url_import}`)}>
                                 <i className="fa fa-file-excel-o"></i>
@@ -332,10 +299,9 @@ class MasterViewer extends Component {
                         loading={this.state.loading}
                         filterable={false}
                         sortable={false}
-                       // page={this.state.data_meta.current_page}
-                        pages={(this.state.data_meta) ? this.state.data_meta.page_count : 0}
-                        pageSize={(this.state.data_meta) ? this.state.data_meta.page_size : this.state.page_size_option}
-                        pageSizeOptions={[this.state.page_size_option]}
+                        pages={this.state.total_page}
+                        pageSize={this.state.page_size}
+                        pageSizeOptions={[15]}
                         manual
                         onPageChange={(pageIndex) => {
                             this.getDataPaging(pageIndex)
@@ -501,15 +467,7 @@ class MasterViewer extends Component {
 function mapStateToProps(props) {
     return {
         user: authStore.getters.getUser(),
-        reload_table: dataStore.getters.getReloadTable(),
-
-        data_blast_sms : dataStore.getters.getDataBlastSMS(),
-
-        district_id: dataStore.getters.getDataDistrictId(),
-        district_name: dataStore.getters.getDataDistrictName(),
-
-        
-
+        reload_table: dataStore.getters.getReloadTable(),        
     }
 }
 

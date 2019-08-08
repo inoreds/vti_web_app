@@ -27,12 +27,62 @@ const Pengguna = Loadable({
   loading: Loading,
 });
 
+const Hotel = Loadable({
+  loader: () => import('./views/Master/Hotel/Hotel'),
+  loading: Loading,
+});
+
+const Airline = Loadable({
+  loader: () => import('./views/Master/Airline/Airline'),
+  loading: Loading,
+});
+
+const Batch = Loadable({
+  loader: () => import('./views/Master/Batch/Batch'),
+  loading: Loading,
+});
+
+const Kaos = Loadable({
+  loader: () => import('./views/Master/Kaos/Kaos'),
+  loading: Loading,
+});
+
+const Meal = Loadable({
+  loader: () => import('./views/Master/Meal/Meal'),
+  loading: Loading,
+});
+
+const DataTourReward = Loadable({
+  loader: () => import('./views/DataTour/DataTourReward'),
+  loading: Loading,
+});
+
+const DataTourRewardDetail = Loadable({
+  loader: () => import('./views/DataTour/DataTourRewardDetail'),
+  loading: Loading,
+});
+
+const Reward = Loadable({
+  loader: () => import('./views/Reward/Reward'),
+  loading: Loading,
+})
+
 const routes = [
   { path: '/', name: 'Home', component: DefaultLayout, exact: true },
   { path: '/login', name: 'Login', component: Login },
-  { path: '/dashboard', name: 'Dashboard', component: Dashboard },
+  { path: '/dashboard', name: 'Dashboard', component: Dashboard, exact: true  },
+  { path: '/dashboard/:reward_id/tour_reward', name: 'Data Tour Reward', component: DataTourReward, exact: true  },
+  { path: '/dashboard/:reward_id/tour_reward/:id', name: 'Reward Detail', component: DataTourRewardDetail, exact: true  },
+  { path: '/reward', name: 'Reward', component: Reward, exact: true  },
+  { path: '/reward/:reward_id/tour_reward', name: 'Data Tour Reward', component: DataTourReward, exact: true  },
+  { path: '/reward/:reward_id/tour_reward/:id', name: 'Reward Detail', component: DataTourRewardDetail, exact: true  },
   { path: '/grup_user', name: 'Grup Pengguna', component: GrupPengguna, exact: true },
   { path: '/grup_user/:id/user', name: 'Pengguna', component: Pengguna },
+  { path: '/master/hotel', name: 'Master Hotel', component: Hotel },
+  { path: '/master/kaos', name: 'Master Kaos', component: Kaos },
+  { path: '/master/batch', name: 'Master Batch', component: Batch },
+  { path: '/master/meal', name: 'Master Meal', component: Meal },
+  { path: '/master/airline', name: 'Master Airline', component: Airline },
   
 ];
 

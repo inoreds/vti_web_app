@@ -37,7 +37,8 @@ class TableBasic extends Component {
                         loading={this.state.loading}
                         filterable={false}
                         sortable={false}
-                        defaultPageSize={5}
+                        defaultPageSize={10}
+                        pageSizeOptions={[10]}
                         className="table table-striped table-hover table-bordered -striped -highlight" />
                 </Col>
             </Row>

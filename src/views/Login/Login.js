@@ -43,9 +43,10 @@ class Login extends Component {
       message: '',
    });
 
-  broker.fetch.post('/administrator/auth', {
+  broker.fetch.post('auth/login', {
       username: this.state.username,
-      password: this.state.password
+      password: this.state.password,
+      password_confirmation: this.state.password
   }).then(res => {
       const { data } = res;
       if (data.status === true) {

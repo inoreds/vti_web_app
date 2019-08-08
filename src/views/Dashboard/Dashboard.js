@@ -1,24 +1,21 @@
 import React, {Component} from 'react';
+import {Badge, Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Input, Label} from 'reactstrap';
 import 'react-bootstrap-table/dist//react-bootstrap-table-all.min.css';
 import "react-table/react-table.css";
-import {Button, Modal, ModalBody, ModalHeader, ModalFooter, Badge} from 'reactstrap';
 
 import MasterViewer from "../../components/MasterViewer"
 
 import data_field from './_field';
-import config from '../../utils/config'
-import broker from '../../utils/broker'
-import dataStore from '../../stores/data'
-import SweetAlert from 'sweetalert-react';
 
-class GrupPengguna extends Component {
+
+class Dashboard extends Component {
   constructor(props) {
     super(props);
 
     this.options = {
       sortIndicator: true,
       hideSizePerPage: true,
-      paginationSize: 7,
+      paginationSize: 6,
       hidePageListOnlyOnePage: true,
       clearSearch: true,
       alwaysShowAllBtns: false,
@@ -27,144 +24,52 @@ class GrupPengguna extends Component {
     this.state = {
       reload:false,
       loading: false,
-      id_pk_column: 'id_data_tour',
-      url: { url_get_data : '/data_trip/list', url_save_data: '/data_trip', url_update_data: '/data_trip', 
-             url_delete_data: '/data_trip', url_get_data_per: '/data_trip' },
-      title: 'Tour Trip',
+      id_pk_column: 'id',
+      url: { url_get_data : '/vti/tur_reward', url_save_data: '/vti/tur_reward', url_update_data: '/vti/tur_reward', 
+             url_delete_data: '/vti/tur_reward', url_get_data_per: '/vti/tur_reward' },
+      title: 'Dashboard Reward',
       fields: data_field.data,
       columns: [
-        { Header: 'id', id: 'id_data_tour', accessor: 'id_data_tour', className: 'text-center', show: false},
-        { Header: 'Nama', id: 'nama_lengkap', accessor: 'nama_lengkap', className: 'text-center'},
-        { Header: 'Tanggal Lahir', id: 'tgl_lahir', accessor: 'tgl_lahir', className: 'text-center'},
-        { Header: 'Tanggal Transaksi', id: 'tgl_transaksi', accessor: 'tgl_transaksi', className: 'text-center'},
-        { Header: 'Trip', id: 'trip', accessor: 'trip', className: 'text-center'},
-        { Header: 'Foto Terbaru',id: 'foto_terbaru', accessor: 'foto_terbaru', style:{ 'whiteSpace': 'unset'},
+        { Header: 'Username 1', id: 'username', accessor: 'username', className: 'text-center'},
+        { Header: 'Username 2', id: 'username2', accessor: 'username2', className: 'text-center'},
+        { Header: 'Username 3', id: 'username3', accessor: 'username3', className: 'text-center'},
+        { Header: 'Tujuan', id: 'tujuan', accessor: 'tujuan', className: 'text-center'},
+        { Header: 'Tanggal Klaim', id: 'tgl_klaim', accessor: 'tgl_klaim', className: 'text-center'},
+        { Header: 'Status', id: 'status', accessor: 'status',
         Cell: row => {
-            return <div className="text-center">
-                  <Button active block color="link" aria-pressed="true" 
-                        onClick={()=> this.onClickViewFile("Foto Terbaru", row.value)}>
-                        Lihat Foto
-                    </Button>
+          return <div className="text-center">
+                    <Badge color="warning"> {row.value}</Badge>
                 </div>
-            }
+          }
         },
-        { Header: 'Akta Kelahiran',id: 'akta_kelahiran', accessor: 'akta_kelahiran', style:{ 'whiteSpace': 'unset'},
-        Cell: row => {
-            return <div className="text-center">
-                  <Button active block color="link" aria-pressed="true" 
-                        onClick={()=> this.onClickViewFile("Akta Kelahiran", row.value)}>
-                        Lihat Data
-                    </Button>
-                </div>
-            }
-        },
-        { Header: 'Bukku Nikah',id: 'buku_nikah', accessor: 'buku_nikah', style:{ 'whiteSpace': 'unset'},
-        Cell: row => {
-            return <div className="text-center">
-                  <Button active block color="link" aria-pressed="true" 
-                        onClick={()=> this.onClickViewFile("Bukku Nikah", row.value)}>
-                        Lihat Data
-                    </Button>
-                </div>
-            }
-        },
-        { Header: 'Rekening Tabungan',id: 'rekening_tabungan', accessor: 'rekening_tabungan', style:{ 'whiteSpace': 'unset'},
-        Cell: row => {
-            return <div className="text-center">
-                  <Button active block color="link" aria-pressed="true" 
-                        onClick={()=> this.onClickViewFile("Rekening Tabungan", row.value)}>
-                        Lihat Data
-                    </Button>
-                </div>
-            }
-        },
-        { Header: 'Status Validasi',id: 'status_validasi', accessor: 'status_validasi',
+        { Header: 'Data Tour',id: 'data_tour', accessor: 'id',
             Cell: row => {
-                if (row.value === "0") {
-                    return (<div className="text-center">
-                            <Button size="sm" className="btn-outline-dark icon mr-1 mb-1" outline color="primary"
-                            onClick={() => this.setState({modal_konfirm:true,  verifikasi_type: 'approve', modal_konfirm_text: 'Lanjutkan Verifikasi Data?', id_data_manage: row.row.id_data_tour})}><i className="fa fa-check"></i> Proses Verifikasi</Button>
-                        </div>);
-                } else {
-                    return <div className="text-center"><Badge color="primary">SUDAH TERVERIFIKASI</Badge></div>
+                return <div className="text-center">
+                        <Button size="sm" className="btn-outline-dark icon mr-1 mb-1" outline color="primary" onClick={() => this.props.history.push(`/dashboard/${row.value}/tour_reward`)}>
+                            Lihat Data
+                        </Button>
+                    </div>  
                 }
-            }
         },
     ],
     }
-    this.onClickViewFile = this.onClickViewFile.bind(this);
-    this.toggle = this.toggle.bind(this);
-    this.verifikasiData = this.verifikasiData.bind(this);
   }
-
-  toggle() {
-    this.setState({
-    modal: !this.state.modal,
-    });
-  }
-
-  onClickViewFile(value, pict) {
-    console.log(pict)
-    this.setState({ modal: true, 
-                    modal_title: value,
-                    img: pict,
-                    alt: 'Kartu Identitas',
-                })
-  }
-
-  verifikasiData() {
-    broker.fetch.get(`data_trip/verifikasi/${this.state.id_data_manage}`)
-    .then(res => {
-        const { data } = res;
-        if (data.status === true) {
-            this.setState({modal_konfirm: false})
-            dataStore.setters.setReloadTable(true)
-        } else {
-
-        }
-    }).catch(err => {
-        
-    });
-}
 
   render() {
     return (
-      <div>
-        <MasterViewer 
-              columns={this.state.columns} 
-              url={this.state.url} 
-              title={this.state.title} 
-              fields={this.state.fields} 
-              id_pk={null} 
-              id_pk_column={this.state.id_pk_column}
-              add_form={false}
-              column_option= {false}
-        />
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={'modal-lg ' + this.props.className}>
-            <ModalHeader toggle={this.toggle}>{this.state.modal_title}</ModalHeader>
-            <ModalBody>
-                <img className="d-block w-100" src={config.api_endpoint_uplooad + this.state.img} alt={this.state.alt} />
-            </ModalBody>
-            <ModalFooter>
-                {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}
-                <Button color="secondary" onClick={this.toggle}>Close</Button>
-            </ModalFooter>
-        </Modal>
-        <SweetAlert
-            show={this.state.modal_konfirm}
-            title="Konfirmasi"
-            text={this.state.modal_konfirm_text}
-            showCancelButton= {true}
-            confirmButtonColor= "#0e5ab3"  
-            confirmButtonText= "Ya, proses saja!" 
-            cancelButtonText= "Tidak, tolong batalkan!"
-            onConfirm={() => { this.verifikasiData()}}
-            onCancel={() => this.setState({ modal_konfirm: false })}
-        />    
-      </div>
-
+      <MasterViewer 
+            columns={this.state.columns} 
+            url={this.state.url} 
+            title={this.state.title} 
+            fields={this.state.fields} 
+            id_pk={null} 
+            id_pk_column={this.state.id_pk_column}
+            add_form={false}
+            column_option= {false}
+            custom_query = {'q=IN-PROGRESS'}
+      />
     );
   }
 }
 
-export default GrupPengguna;
+export default Dashboard;

@@ -7,9 +7,56 @@ export default {
       url: '/dashboard',
       icon: 'icon-speedometer',
     },
+    // {
+    //   name: 'Data Tour',
+    //   url: '/tour',
+    //   icon: 'icon-basket-loaded',
+    // },
     {
-      name: 'User Management',
-      url: '/grup_user',
+      name: 'Reward',
+      url: '/reward',
+      icon: 'fa fa-dollar',
+    },
+    {
+      name: 'Master',
+      url: '/master',
+      icon: 'icon-briefcase',
+      children: [
+        {
+          name: 'Hotel',
+          url: '/master/hotel',
+          icon: 'icon-puzzle',
+        },
+        {
+          name: 'Meal',
+          url: '/master/meal',
+          icon: 'icon-puzzle',
+        },
+        {
+          name: 'Batch',
+          url: '/master/batch',
+          icon: 'icon-puzzle',
+        },
+        {
+          name: 'Kaos',
+          url: '/master/kaos',
+          icon: 'icon-puzzle',
+        },
+        {
+          name: 'Airline',
+          url: '/master/airline',
+          icon: 'icon-puzzle',
+        },
+      ],
+    },
+    {
+      name: 'Report',
+      url: '/report',
+      icon: 'icon-note',
+    },  
+    {
+      name: 'User',
+      url: '/user',
       icon: 'icon-people',
     },    
   ]

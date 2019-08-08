@@ -20,11 +20,13 @@ const instance = axios.create({
     }),
 });
 
-const instanceRocketChat = axios.create({
-    baseURL: config.api_endpoint_rocketchat,
+const instanceUrlencoded = axios.create({
+    baseURL: config.api_endpoint,
     timeout: 20000,
     headers: {
-        'Content-Type': 'application/json',
+        'Accept': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Bearer ${token}`
     },
     cancelToken: new CancelToken(function executor(c) {
         cancel = c;
@@ -33,17 +35,15 @@ const instanceRocketChat = axios.create({
 
 
 
-
-
 const checkUserIdentity = () => {
     return instance
-        .get('/helper/user_identity')
+        .get('/auth/user')
         .then(res => {
             const { status, data } = res;
             if (status === 200) {
                 return {
                     status: true,
-                    user: data,
+                    user: data.data,
                 }
             } else {
                 return {
@@ -65,11 +65,6 @@ const setToken = (token) => {
     instance.defaults.headers.Authorization = `Bearer ${token}`;
 }
 
-const setTokenRocketChat = (authToken,userId) => {
-    window.localStorage.setItem('authTokenRocketChat', authToken);
-    window.localStorage.setItem('userIdRocketChat', userId);
-}
-
 const logout = () => {
     token = null;
     window.localStorage.clear();
@@ -77,10 +72,9 @@ const logout = () => {
 
 export default {
     fetch: instance,
-    fetchRocketChat: instanceRocketChat,
+    fetchUrlEncoded: instanceUrlencoded,
     setToken,
     logout,
-    setTokenRocketChat,
     checkUserIdentity,
     cancel,
 }
