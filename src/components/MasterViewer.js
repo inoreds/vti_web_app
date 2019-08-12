@@ -14,7 +14,6 @@ import authStore from "../stores/auth"
 import dataStore from "../stores/data"
 import SweetAlert from 'sweetalert-react';
 
-
 class MasterViewer extends Component {
   constructor(props) {
     super(props);
@@ -162,7 +161,7 @@ class MasterViewer extends Component {
 
     getDataPer(id) {
         this.setState({id_delete_edit: id});
-        broker.fetch.put(`${this.props.url.url_get_data_per}/${id}`)
+        broker.fetch.get(`${this.props.url.url_get_data_per}/${id}`)
         .then(res => {
             const { data } = res;
             if (data.status === true) {
@@ -273,6 +272,7 @@ class MasterViewer extends Component {
 
 
     render() {
+        console.log(this.state.data_per)
         return (
         <div className="animated">
             {this.state.show_view.table === true &&

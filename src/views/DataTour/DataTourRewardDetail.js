@@ -20,7 +20,6 @@ import DataMainForm from './DetailForm/DataMainForm';
 import DataKtpForm from './DetailForm/DataKtpForm';
 import DataPassportForm from './DetailForm/DataPassportForm';
 
-
 class DataTourRewardDetail extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +39,9 @@ class DataTourRewardDetail extends Component {
       reload:false,
       loading: false,
       reward_id: this.props.match.params.reward_id,
-      data: [],
+      data: {},
+      ktp: {},
+      passport: {},
       edit_main: false,
       edit_ktp : false,
       edit_passport: false
@@ -82,12 +83,13 @@ class DataTourRewardDetail extends Component {
   }
 
   getData() {
-    broker.fetch.get(`vti/tur_reward/${this.state.reward_id}?page=1`)
+    broker.fetch.get(`transaction/data_tour/${this.props.match.params.id}`)
     .then(res => {
         const { data } = res;
         if (data.status === true) {
-            const {data_tour} = data.data
-            this.setState({data: data_tour})
+            // const {data_tour} = data.data
+            // const {ktp, passport} = data_tour
+            this.setState({data: data.data});
         } else {
 
         }
@@ -144,10 +146,10 @@ class DataTourRewardDetail extends Component {
                 <Collapse isOpen={this.state.accordion[0]} data-parent="#accordion" id="collapseOne" aria-labelledby="headingOne">
                   <CardBody>
                       {(this.state.edit_main === false) &&
-                         <DataMain />
+                         <DataMain data={this.state.data}/>
                       }
                       {(this.state.edit_main === true) &&
-                          <DataMainForm />
+                          <DataMainForm data={this.state.data}/>
                       }
                   </CardBody>
                 </Collapse>

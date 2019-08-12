@@ -13,7 +13,7 @@ const Login = Loadable({
 });
 
 const Dashboard = Loadable({
-  loader: () => import('./views/Dashboard'),
+  loader: () => import('./views/Dashboard/Dashboard'),
   loading: Loading,
 });
 
