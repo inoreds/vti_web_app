@@ -3,14 +3,11 @@ import {Badge, Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, In
 import 'react-bootstrap-table/dist//react-bootstrap-table-all.min.css';
 import "react-table/react-table.css";
 import { connect} from "remx";
-import authStore from '../../stores/auth'
+import { ToastContainer, toast } from 'react-toastify';
 
-import MasterViewer from "../../components/MasterViewer"
-
-import data_field from './_field';
-import TableBasic from '../../reuse_components/Tables/TableBasic';
 import broker from '../../utils/broker';
 import dataStore from '../../stores/data'
+import authStore from '../../stores/auth'
 import config from '../../utils/config'
 
 import DataMain from './DetailData/DataMain';
@@ -51,11 +48,14 @@ class DataTourRewardDetail extends Component {
     this.editMain = this.editMain.bind(this);
     this.editKtp = this.editKtp.bind(this);
     this.editPassport = this.editPassport.bind(this);
+    this.closeMain = this.closeMain.bind(this);
+    this.closeKtp = this.closeKtp.bind(this);
+    this.closePassport = this.closePassport.bind(this);
 
   }
 
   componentDidMount(){
-    this.getData();
+    this.getData();    
   }
 
   toggleAccordion(tab) {
@@ -81,40 +81,90 @@ class DataTourRewardDetail extends Component {
   toggleFade() {
     this.setState({ fadeIn: !this.state.fadeIn });
   }
-
+  notify_berhasil = (text) => toast("Data Tour Berhasil " + text);
   getData() {
     broker.fetch.get(`transaction/data_tour/${this.props.match.params.id}`)
     .then(res => {
         const { data } = res;
         if (data.status === true) {
-            // const {data_tour} = data.data
-            // const {ktp, passport} = data_tour
-            this.setState({data: data.data});
+            const data_main = data.data;
+            const {ktp, passport} = data.data;
+            this.setState({data: data_main, ktp: ktp, passport: passport});
         } else {
 
         }
-    }).catch(err => {
-        
-    });
+      }).catch(err => {
+
+      }).then(()=> {
+          dataStore.setters.setReloadTable(false);
+      });
   }
 
-  editMain(){
-    this.setState({
-      edit_main: !this.state.edit_main,
-    });
+  closeMain(val){
+    dataStore.setters.setDataTourMain({'form' : 'view', 'status': 'view', data : this.state.data});
   }
 
-  editKtp(){
-    this.setState({
-      edit_ktp: !this.state.edit_ktp,
-    });
+  closeKtp(val){
+    dataStore.setters.setDataTourKtp({'form' : 'view', 'status': 'view', data : this.state.data});
   }
 
-  editPassport(){
-    this.setState({
-      edit_passport: !this.state.edit_passport,
-    });
+  closePassport(val){
+    dataStore.setters.setDataTourPassport({'form' : 'view', 'status': 'view', data : this.state.data});
   }
+
+  editMain(val){
+    if (val === false) {
+      dataStore.setters.setDataTourMain({'form' : 'view', 'status': 'save', data: this.state.data});
+    } else {
+      dataStore.setters.setDataTourMain({'form' : 'view', 'status': 'edit', data : this.state.data});
+    }
+  }
+
+  editKtp(val){
+    if (val === false) {
+      dataStore.setters.setDataTourKtp({'form' : 'view', 'status': 'save', data: this.state.data});
+    } else {
+      dataStore.setters.setDataTourKtp({'form' : 'view', 'status': 'edit', data : this.state.data});
+    }
+  }
+
+  editPassport(val){
+    if (val === false) {
+      dataStore.setters.setDataTourPassport({'form' : 'view', 'status': 'save', data: this.state.data});
+    } else {
+      dataStore.setters.setDataTourPassport({'form' : 'view', 'status': 'edit', data : this.state.data});
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(this.props.data_tour_main !== prevProps.data_tour_main){
+        if (this.props.data_tour_main.form === 'view' && this.props.data_tour_main.status === 'view') {
+          this.setState({edit_main : false});
+        } else if (this.props.data_tour_main.form === 'view' && this.props.data_tour_main.status === 'edit') {
+          this.setState({edit_main : true});
+        }
+    }
+    if(this.props.data_tour_ktp !== prevProps.data_tour_ktp){
+      if (this.props.data_tour_ktp.form === 'view' && this.props.data_tour_ktp.status === 'view') {
+        this.setState({edit_ktp : false});
+      } else if (this.props.data_tour_ktp.form === 'view' && this.props.data_tour_ktp.status === 'edit') {
+        this.setState({edit_ktp : true});
+      }
+    }
+    if(this.props.data_tour_passport !== prevProps.data_tour_passport){
+      if (this.props.data_tour_passport.form === 'view' && this.props.data_tour_passport.status === 'view') {
+        this.setState({edit_passport : false});
+      } else if (this.props.data_tour_passport.form === 'view' && this.props.data_tour_passport.status === 'edit') {
+        this.setState({edit_passport : true});
+      }
+    }
+    if(this.props.reload_table !== prevProps.reload_table){
+      if (this.props.reload_table === true) {
+          this.getData();
+          this.notify_berhasil("Diupdate");   
+      }
+    }
+}
 
   render() {
     return (
@@ -132,24 +182,29 @@ class DataTourRewardDetail extends Component {
                   </Button>
                   <div className="card-header-actions">
                       {(this.state.edit_main === false) &&
-                          <Button className="btn-outline-dark btn-sm icon mr-1 mb-1" onClick={() => this.editMain()}>
+                          <Button className="btn-outline-dark btn-sm icon mr-1 mb-1" onClick={() => this.editMain(true)}>
                               <i className="fa fa-pencil"></i>
                           </Button>
                       }
                       {(this.state.edit_main === true) &&
-                          <Button className="btn-outline-dark btn-sm icon mr-1 mb-1" onClick={() => this.editMain()}>
+                          <div>
+                             <Button className="btn-outline-dark btn-sm icon mr-1 mb-1" onClick={() => this.closeMain()}>
+                                <i className="fa fa-remove"></i>
+                            </Button>
+                            <Button className="btn-outline-dark btn-sm icon mr-1 mb-1" onClick={() => this.editMain(false)}>
                               <i className="fa fa-save"></i>
-                          </Button>
+                            </Button>
+                          </div>
                       }
                   </div>
                 </CardHeader>
                 <Collapse isOpen={this.state.accordion[0]} data-parent="#accordion" id="collapseOne" aria-labelledby="headingOne">
                   <CardBody>
                       {(this.state.edit_main === false) &&
-                         <DataMain data={this.state.data}/>
+                         <DataMain data={this.state.data} id = {this.props.match.params.id}/>
                       }
                       {(this.state.edit_main === true) &&
-                          <DataMainForm data={this.state.data}/>
+                          <DataMainForm data={this.state.data} id = {this.props.match.params.id}/>
                       }
                   </CardBody>
                 </Collapse>
@@ -161,24 +216,29 @@ class DataTourRewardDetail extends Component {
                   </Button>
                   <div className="card-header-actions">
                     {(this.state.edit_ktp === false) &&
-                      <Button className="btn-outline-dark btn-sm icon mr-1 mb-1" onClick={() => this.editKtp()}>
+                      <Button className="btn-outline-dark btn-sm icon mr-1 mb-1" onClick={() => this.editKtp(true)}>
                           <i className="fa fa-pencil"></i>
                       </Button>
                     }
                     {(this.state.edit_ktp === true) &&
-                      <Button className="btn-outline-dark btn-sm icon mr-1 mb-1" onClick={() => this.editKtp()}>
-                          <i className="fa fa-save"></i>
-                      </Button>
+                      <div>
+                         <Button className="btn-outline-dark btn-sm icon mr-1 mb-1" onClick={() => this.closeKtp()}>
+                            <i className="fa fa-remove"></i>
+                        </Button>
+                          <Button className="btn-outline-dark btn-sm icon mr-1 mb-1" onClick={() => this.editKtp(false)}>
+                            <i className="fa fa-save"></i>
+                        </Button>
+                      </div>
                     }
                   </div>
                 </CardHeader>
                 <Collapse isOpen={this.state.accordion[1]} data-parent="#accordion" id="collapseTwo">
                   <CardBody>
                     {(this.state.edit_ktp === false) &&
-                        <DataKtp />
+                        <DataKtp data={this.state.ktp} id = {this.props.match.params.id}/>
                     }
                     {(this.state.edit_ktp === true) &&
-                        <DataKtpForm />
+                        <DataKtpForm data={this.state.ktp} id = {this.props.match.params.id}/>
                     }
                   </CardBody>
                 </Collapse>
@@ -190,24 +250,29 @@ class DataTourRewardDetail extends Component {
                   </Button>
                   <div className="card-header-actions">
                   {(this.state.edit_passport === false) &&
-                    <Button className="btn-outline-dark btn-sm icon mr-1 mb-1" onClick={() => this.editPassport()}>
+                    <Button className="btn-outline-dark btn-sm icon mr-1 mb-1" onClick={() => this.editPassport(true)}>
                         <i className="fa fa-pencil"></i>
                     </Button>
                   }
                   {(this.state.edit_passport === true) &&
-                    <Button className="btn-outline-dark btn-sm icon mr-1 mb-1" onClick={() => this.editPassport()}>
+                    <div>
+                       <Button className="btn-outline-dark btn-sm icon mr-1 mb-1" onClick={() => this.closePassport()}>
+                          <i className="fa fa-close"></i>
+                      </Button>
+                      <Button className="btn-outline-dark btn-sm icon mr-1 mb-1" onClick={() => this.editPassport(false)}>
                         <i className="fa fa-save"></i>
-                    </Button>
+                      </Button>
+                    </div>
                   }
                   </div>       
                 </CardHeader>
                 <Collapse isOpen={this.state.accordion[2]} data-parent="#accordion" id="collapseThree">
                   <CardBody>
                     {(this.state.edit_passport === false) &&
-                        <DataPassport />
+                        <DataPassport data={this.state.passport} id = {this.props.match.params.id}/>
                     }
                     {(this.state.edit_passport === true) &&
-                        <DataPassportForm />
+                        <DataPassportForm data={this.state.passport} id = {this.props.match.params.id}/>
                     }
                   </CardBody>
                 </Collapse>
@@ -215,6 +280,9 @@ class DataTourRewardDetail extends Component {
             </div>
           </CardBody>
         </Card>
+        <ToastContainer 
+            position='bottom-right'
+        />
       </div>
     );
   }
@@ -223,7 +291,10 @@ class DataTourRewardDetail extends Component {
 function mapStateToProps(props) {
   return {
       user: authStore.getters.getUser(),
+      data_tour_main : dataStore.getters.getDataTourMain(),
+      data_tour_ktp : dataStore.getters.getDataTourKtp(),
+      data_tour_passport : dataStore.getters.getDataTourPassport(),
+      reload_table: dataStore.getters.getReloadTable(),  
   }
 }
 export default connect(mapStateToProps)(DataTourRewardDetail);
-

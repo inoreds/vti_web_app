@@ -6,6 +6,7 @@ import moment from 'moment-with-locales-es6';
 import 'react-bootstrap-table/dist//react-bootstrap-table-all.min.css';
 import "react-table/react-table.css";
 import NumberFormat from 'react-number-format';
+import dataStore from '../../../stores/data'
 
 import broker from "../../../utils/broker"
 
@@ -28,7 +29,14 @@ class DataMain extends Component {
           data: newProps.data
         })
     }
-
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if(this.props.data_tour_main !== prevProps.data_tour_main){
+      if (this.props.data_tour_main.form === 'view' && this.props.data_tour_main.status === 'view') {
+        // console.log("view bos")
+        this.setState({data : this.props.data})
+      }
+    }
 }
 
   render() {
@@ -79,7 +87,7 @@ class DataMain extends Component {
 }
 function mapStateToProps(props) {
   return {
-      
+    data_tour_main: dataStore.getters.getDataTourMain()
   }
 }
 export default connect(mapStateToProps)(DataMain);
