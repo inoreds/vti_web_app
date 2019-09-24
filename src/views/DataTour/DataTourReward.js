@@ -82,7 +82,7 @@ class DataTourReward extends Component {
         },
         { Header: 'Validasi Diamond',id: 'status_validasi_diamond', accessor: 'status_validasi_diamond',
             Cell: row => {
-                if (row.value === 0) {
+                if (row.value === "0") {
                     return (<div className="text-center">
                             <Button size="sm" className="btn-outline-dark icon mr-1 mb-1" outline color="primary"
                             onClick={() => this.setState({modal_konfirm_diamond:true,  verifikasi_type: 'approve', modal_konfirm_diamond_text: 'Lanjutkan Verifikasi Data?', id_data_manage: row.row.id})}><i className="fa fa-check"></i> Verifikasi</Button>
@@ -94,7 +94,7 @@ class DataTourReward extends Component {
         },
         { Header: 'Validasi Admin',id: 'status_validasi_admin', accessor: 'status_validasi_admin', show : ((this.props.user.role === 'admin') ? true : false),
             Cell: row => {
-                if (row.value === 0) {
+                if (row.value === "0") {
                     return (<div className="text-center">
                             <Button size="sm" className="btn-outline-dark icon mr-1 mb-1" outline color="primary"
                             onClick={() => this.setState({modal_konfirm_admin:true,  verifikasi_type: 'approve', modal_konfirm_admin_text: 'Lanjutkan Verifikasi Data?', id_data_manage: row.row.id})}><i className="fa fa-check"></i> Verifikasi</Button>
