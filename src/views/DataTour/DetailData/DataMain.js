@@ -8,6 +8,7 @@ import "react-table/react-table.css";
 import NumberFormat from 'react-number-format';
 import dataStore from '../../../stores/data'
 
+import config from '../../../utils/config'
 import broker from "../../../utils/broker"
 
 class DataMain extends Component {
@@ -53,15 +54,18 @@ class DataMain extends Component {
                             <h5>Tgl. Transaksi              : {this.state.data.tgl_transaksi}</h5>
                             <h5>Trip                        : {this.state.data.trip}</h5>
                             <h5>Status                      : {this.state.data.status}</h5>
-                            <h5>Buku Nikah                  : </h5>
-                            <h5>Rekening Tabungan           : </h5>
-                            <h5>Akta Kelahiran              : </h5>
-                            <h5>Foto Terbaru                : </h5>
-                            <h5>Input (By)                  : {(this.state.data.input_by) ? this.state.data.input_by.nama_lengkap : null}</h5>
+                            <h5>KTP                         : {(this.state.data.ktp) ? <a target="_blank" href={config.api_endpoint + this.state.data.ktp}>Lihat Data</a> : ''}</h5>
+                            <h5>Passport                    : {(this.state.data.passport) ? <a target="_blank" href={config.api_endpoint + this.state.data.passport}>Lihat Data</a> : ''}</h5>
+                            <h5>Buku Nikah                  : {(this.state.data.buku_nikah) ? <a target="_blank" href={config.api_endpoint + this.state.data.buku_nikah}>Lihat Data</a> : ''}</h5>
+                            <h5>Rekening Tabungan           : {(this.state.data.rekening_tabungan) ? <a target="_blank" href={config.api_endpoint + this.state.data.rekening_tabungan}>Lihat Data</a> : ''}</h5>
+                            <h5>Akta Kelahiran              : {(this.state.data.akta_kelahiran) ? <a target="_blank" href={config.api_endpoint + this.state.data.akta_kelahiran}>Lihat Data</a> : ''}</h5>
+                            <h5>Foto Terbaru                : {(this.state.data.foto_terbaru) ? <a target="_blank" href={config.api_endpoint + this.state.data.foto_terbaru}>Lihat Data</a> : ''}</h5>
                         </pre>
                     </Col>
                     <Col xs="12" sm="6">
                         <pre>
+                            <h5>Hubungan Keluarga           : {(this.state.data.hubungan_keluarga) ? this.state.data.hubungan_keluarga: null}</h5>
+                            <h5>Input (By)                  : {(this.state.data.input_by) ? this.state.data.input_by.nama_lengkap : null}</h5>
                             <h5>Status Validasi (Admin)     : {(this.state.data.status_validasi_admin === 0) ? 'BELUM DIVERIFIKASI' : 'SUDAH DIVERIFIKASI' }</h5>
                             <h5>Tgl. Validasi (Admin)       : {this.state.data.tgl_validasi_admin}</h5>
                             <h5>Validasi (Admin)            : {this.state.data.validasi_admin}</h5>

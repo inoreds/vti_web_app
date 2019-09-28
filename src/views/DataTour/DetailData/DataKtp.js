@@ -40,16 +40,17 @@ class DataKTP extends Component {
                         <pre>
                             <h5>NIK                         : {this.state.data.nik}</h5>
                             <h5>Nama Lengkap                : {this.state.data.nama_lengkap}</h5>
-                            <h5>Tempat Tgl. Lahir           : {this.state.data.tempat_tgl_lahir}</h5>
+                            <h5>Tempat Tgl. Lahir           : {this.state.data.tempat_lahir}</h5>
+                            <h5>Tgl. Lahir                  : {this.state.data.tgl_lahir}</h5>
                             <h5>Jenis Kelamin               : {this.state.data.jenis_kelamin}</h5>
                             <h5>Gol Darah                   : {this.state.data.gol_darah}</h5>
                             <h5>Alamat                      : {this.state.data.alamat}</h5>
-                            <h5>RT. RW                      : {this.state.data.rt_rw}</h5>
-                            <h5>Kelurahan / Desa            : {this.state.data.kel_desa}</h5>
+                            <h5>RT. RW                      : {this.state.data.rt_rw}</h5>                            
                         </pre>
                     </Col>
                     <Col xs="12" sm="6">
                         <pre>
+                            <h5>Kelurahan / Desa            : {this.state.data.kel_desa}</h5>
                             <h5>Kecamatan                   : {this.state.data.kecamatan}</h5>
                             <h5>Agama                       : {this.state.data.agama}</h5>
                             <h5>Status Pernikahan           : {this.state.data.status_pernikahan}</h5>

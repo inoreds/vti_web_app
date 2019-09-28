@@ -32,7 +32,8 @@ class DataKTP extends Component {
     this.onChangeRtRw = this.onChangeRtRw.bind(this);
     this.onChangePekerjaan = this.onChangePekerjaan.bind(this);
     this.onChangeStatusPernikahan = this.onChangeStatusPernikahan.bind(this);
-    this.onChangeTempatTglLahir = this.onChangeTempatTglLahir.bind(this);
+    this.onChangeTempatLahir = this.onChangeTempatLahir.bind(this);
+    this.onChangeTglLahir = this.onChangeTglLahir.bind(this);
     this.onChangeWargaNegara = this.onChangeWargaNegara.bind(this);
 
   }
@@ -103,9 +104,15 @@ class DataKTP extends Component {
     })
   }
 
-  onChangeTempatTglLahir(e){
+  onChangeTempatLahir(e){
     this.setState({
-        tempat_tgl_lahir: e.target.value
+        tempat_lahir: e.target.value
+    })
+  }
+
+  onChangeTglLahir(e){
+    this.setState({
+        tgl_lahir: e.target.value
     })
   }
 
@@ -128,7 +135,8 @@ class DataKTP extends Component {
     save(){
         var data = new FormData();
         data.append('nama_lengkap', this.state.nama_lengkap);
-        data.append('tempat_tgl_lahir', this.state.tempat_tgl_lahir);
+        data.append('tempat_lahir', this.state.tempat_lahir);
+        data.append('tgl_lahir', this.state.tgl_lahir);
         data.append('gol_darah', this.state.gol_darah);
         data.append('nik', this.state.nik);
         data.append('alamat', this.state.alamat);
@@ -165,7 +173,8 @@ class DataKTP extends Component {
   componentDidMount(){
       this.setState({
           nama_lengkap : this.state.data.nama_lengkap,
-          tempat_tgl_lahir : this.state.data.tempat_tgl_lahir,
+          tempat_lahir : this.state.data.tempat_lahir,
+          tgl_lahir : this.state.data.tgl_lahir,
           gol_darah : this.state.data.gol_darah,
           nik : this.state.data.nik,
           alamat : this.state.data.alamat,
@@ -204,10 +213,18 @@ class DataKTP extends Component {
                         </FormGroup>
                         <FormGroup row  className="m-2">
                             <Col md="3">
-                                <Label htmlFor="text-input">Tempat Tgl. Lahir</Label>
+                                <Label htmlFor="text-input">Tempat Lahir</Label>
                             </Col>
                             <Col xs="12" md="9">
-                                <Input type="text" id="text-input" name="text-input" onChange={this.onChangeTempatTglLahir} value = {this.state.tempat_tgl_lahir} />
+                                <Input type="text" id="text-input" name="text-input" onChange={this.onChangeTempatLahir} value = {this.state.tempat_lahir} />
+                            </Col>
+                        </FormGroup>
+                        <FormGroup row  className="m-2">
+                            <Col md="3">
+                                <Label htmlFor="text-input">Tgl Lahir</Label>
+                            </Col>
+                            <Col xs="12" md="9">
+                                <Input type="text" id="text-input" name="text-input" onChange={this.onChangeTglLahir} value = {this.state.tgl_lahir} />
                             </Col>
                         </FormGroup>
                         <FormGroup row  className="m-2">
@@ -234,6 +251,8 @@ class DataKTP extends Component {
                                 <Input type="text" id="text-input" name="text-input" onChange={this.onChangeRtRw} value = {this.state.rt_rw} />
                             </Col>
                         </FormGroup>
+                    </Col>
+                    <Col xs="12" sm="6">
                         <FormGroup row  className="m-2">
                             <Col md="3">
                                 <Label htmlFor="text-input">Kelurahan / Desa</Label>
@@ -242,8 +261,6 @@ class DataKTP extends Component {
                                 <Input type="text" id="text-input" name="text-input" onChange={this.onChangeKelDesa} value = {this.state.kel_desa} />
                             </Col>
                         </FormGroup>
-                    </Col>
-                    <Col xs="12" sm="6">
                         <FormGroup row  className="m-2">
                             <Col md="3">
                                 <Label htmlFor="text-input">Kecamatan</Label>

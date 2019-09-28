@@ -27,16 +27,18 @@ class DataMain extends Component {
         nama_lengkap : '',
         jenis_kelamin : '',
         tgl_lahir : null,
-        meals_id : null,
-        hotel_id : null,
-        batch_id : null,
-        airline_id : null,
-        uk_kaos_id : null,
+        meals_id : "",
+        hotel_id : "",
+        batch_id : "",
+        airline_id : "",
+        uk_kaos_id : "",
+        file_passport: null,
         file_ktp: null,
         file_buku_nikah : null,
         file_foto_terbaru : null,
         file_rekening : null,
         file_akta : null,
+        hubungan_keluarga : "Ayah",
     }
     this.onChangeNamalengkap = this.onChangeNamalengkap.bind(this)
     this.onChangeTglLahir = this.onChangeTglLahir.bind(this)
@@ -46,10 +48,13 @@ class DataMain extends Component {
     this.onChangeMeals = this.onChangeMeals.bind(this)
     this.onChangeHotels = this.onChangeHotels.bind(this)
     this.onChangeUkKaos = this.onChangeUkKaos.bind(this)
+    this.onChangeKTP = this.onChangeKTP.bind(this)
+    this.onChangePassport = this.onChangePassport.bind(this)
     this.onChangeAkta = this.onChangeAkta.bind(this)
     this.onChangeFotoTerbaru = this.onChangeFotoTerbaru.bind(this)
     this.onChangeRekening = this.onChangeRekening.bind(this)
     this.onChangeBukuNikah = this.onChangeBukuNikah.bind(this)
+    this.onChanageHubunganKeluarga = this.onChanageHubunganKeluarga.bind(this)
   }
   
   getDataAirline(){
@@ -58,17 +63,20 @@ class DataMain extends Component {
         const { data } = res;
         if (data.status === true) {
             const list = data.data
-            this.setState({airlines: list.data}, function(){
-                if (!this.state.data.airline_id){
-                    this.setState({
-                        airline_id : list.data[0].id
-                    });
-                } else {
-                    this.setState({
-                        airline_id : this.state.data.airline_id.id
-                    });
-                }
-            });
+            console.log(list.data)
+            if (list.data.length > 0){
+                this.setState({airlines: list.data}, function(){
+                    if (!this.state.data.airline_id){
+                        this.setState({
+                            airline_id : list.data[0].id
+                        });
+                    } else {
+                        this.setState({
+                            airline_id : this.state.data.airline_id.id
+                        });
+                    }
+                });    
+            }
         } else {
 
         }
@@ -83,17 +91,20 @@ class DataMain extends Component {
         const { data } = res;
         if (data.status === true) {
             const list = data.data
-            this.setState({batches: list.data}, function(){
-                if (!this.state.data.batch_id){
-                    this.setState({
-                        batch_id : list.data[0].id
-                    });
-                } else {
-                    this.setState({
-                        batch_id : this.state.data.batch_id.id
-                    });
-                }
-            });
+            if (list.data.length > 0){
+                this.setState({batches: list.data}, function(){
+                    if (!this.state.data.batch_id){
+                        this.setState({
+                            batch_id : list.data[0].id
+                        });
+                    } else {
+                        this.setState({
+                            batch_id : this.state.data.batch_id.id
+                        });
+                    }
+                });
+    
+            }
         } else {
 
         }
@@ -108,17 +119,20 @@ class DataMain extends Component {
         const { data } = res;
         if (data.status === true) {
             const list = data.data
-            this.setState({hotels: list.data}, function(){
-                if (!this.state.data.hotel_id){
-                    this.setState({
-                        hotel_id : list.data[0].id
-                    });
-                } else {
-                    this.setState({
-                        hotel_id : this.state.data.hotel_id.id
-                    });
-                }
-            });
+            if (list.data.length > 0){
+                this.setState({hotels: list.data}, function(){
+                    if (!this.state.data.hotel_id){
+                        this.setState({
+                            hotel_id : list.data[0].id
+                        });
+                    } else {
+                        this.setState({
+                            hotel_id : this.state.data.hotel_id.id
+                        });
+                    }
+                });
+    
+            }
         } else {
 
         }
@@ -133,17 +147,19 @@ class DataMain extends Component {
         const { data } = res;
         if (data.status === true) {
             const list = data.data
-            this.setState({meals: list.data}, function(){
-                if (!this.state.data.meals_id){
-                    this.setState({
-                        meals_id : list.data[0].id
-                    });
-                } else {
-                    this.setState({
-                        meals_id : this.state.data.meals_id.id
-                    });
-                }
-            });
+            if (list.data.length > 0){
+                this.setState({meals: list.data}, function(){
+                    if (!this.state.data.meals_id){
+                        this.setState({
+                            meals_id : list.data[0].id
+                        });
+                    } else {
+                        this.setState({
+                            meals_id : this.state.data.meals_id.id
+                        });
+                    }
+                });    
+            }
         } else {
 
         }
@@ -158,17 +174,19 @@ class DataMain extends Component {
         const { data } = res;
         if (data.status === true) {
             const list = data.data
-            this.setState({uk_kaoses: list.data}, function(){
-                if (!this.state.data.uk_kaos_id){
-                    this.setState({
-                        uk_kaos_id : list.data[0].id
-                    });
-                } else {
-                    this.setState({
-                        uk_kaos_id : this.state.data.uk_kaos_id.id
-                    });
-                }
-            });
+            if (list.data.length > 0){
+                this.setState({uk_kaoses: list.data}, function(){
+                    if (!this.state.data.uk_kaos_id){
+                        this.setState({
+                            uk_kaos_id : list.data[0].id
+                        });
+                    } else {
+                        this.setState({
+                            uk_kaos_id : this.state.data.uk_kaos_id.id
+                        });
+                    }
+                });    
+            }
         } else {
             
         }
@@ -185,6 +203,7 @@ class DataMain extends Component {
         this.getDataUkKaos();
         this.setState({
             nama_lengkap : this.state.data.nama_lengkap,
+            hubungan_keluarga: this.state.data.hubungan_keluarga,
             tgl_lahir: (this.state.data.tgl_lahir) ? this.state.data.tgl_lahir : moment().format('YYYY-MM-DD'),
             jenis_kelamin : (this.state.data.jenis_kelamin) ? this.state.data.jenis_kelamin : 'LAKI-LAKI'
         })
@@ -248,6 +267,26 @@ class DataMain extends Component {
         })
     }
 
+    onChanageHubunganKeluarga(e){
+        this.setState({
+            hubungan_keluarga: e.target.value
+        })
+    }
+
+    onChangeKTP(e) {
+        let value = e.target.files[0];
+        this.setState({
+            file_ktp: value
+        })
+    }
+
+    onChangePassport(e) {
+        let value = e.target.files[0];
+        this.setState({
+            file_passport: value
+        })
+    }
+
     onChangeBukuNikah(e) {
         let value = e.target.files[0];
         this.setState({
@@ -277,8 +316,10 @@ class DataMain extends Component {
     }
 
     save(){
+        console.log(this.state.hubungan_keluarga)
         var data = new FormData();
         data.append('nama_lengkap', this.state.nama_lengkap);
+        data.append('hubungan_keluarga', this.state.hubungan_keluarga);
         data.append('jenis_kelamin', this.state.jenis_kelamin);
         data.append('tgl_lahir', this.state.tgl_lahir);
         data.append('uk_kaos_id', this.state.uk_kaos_id);
@@ -286,6 +327,8 @@ class DataMain extends Component {
         data.append('batch_id', this.state.batch_id);
         data.append('airline_id', this.state.airline_id);
         data.append('meals_id', this.state.meals_id);
+        data.append('ktp', this.state.file_ktp);
+        data.append('passport', this.state.file_passport);
         data.append('foto_terbaru', this.state.file_foto_terbaru);
         data.append('akta_kelahiran', this.state.file_akta);
         data.append('buku_nikah', this.state.file_buku_nikah);
@@ -357,10 +400,26 @@ class DataMain extends Component {
                         </FormGroup>
                         <FormGroup row  className="m-2">
                             <Col md="3">
+                                <Label htmlFor="text-input">KTP</Label>
+                            </Col>
+                            <Col xs="12" md="9">
+                              <Input type="file" id="file-input" placeholder = "Pilih File.. " onChange={this.onChangeKTP} multiple={false}></Input>
+                            </Col>
+                        </FormGroup>
+                        <FormGroup row  className="m-2">
+                            <Col md="3">
+                                <Label htmlFor="text-input">Passport</Label>
+                            </Col>
+                            <Col xs="12" md="9">
+                              <Input type="file" id="file-input" placeholder = "Pilih File.. " onChange={this.onChangePassport} multiple={false}></Input>
+                            </Col>
+                        </FormGroup>
+                        <FormGroup row  className="m-2">
+                            <Col md="3">
                                 <Label htmlFor="text-input">Buku Nikah</Label>
                             </Col>
                             <Col xs="12" md="9">
-                              <Input type="file" id="file-input" placeholder = "Pilih File.. " onChange={this.onChangeBukuNikah} accept="image/*" multiple={false}></Input>
+                              <Input type="file" id="file-input" placeholder = "Pilih File.. " onChange={this.onChangeBukuNikah} multiple={false}></Input>
                             </Col>
                         </FormGroup>
                         <FormGroup row  className="m-2">
@@ -368,7 +427,7 @@ class DataMain extends Component {
                                 <Label htmlFor="text-input">Rekening Tabungan</Label>
                             </Col>
                             <Col xs="12" md="9">
-                              <Input type="file" id="file-input" placeholder = "Pilih File.. " onChange={this.onChangeRekening} accept="image/*" multiple={false}></Input>
+                              <Input type="file" id="file-input" placeholder = "Pilih File.. " onChange={this.onChangeRekening} multiple={false}></Input>
                             </Col>
                         </FormGroup>
                         <FormGroup row  className="m-2">
@@ -376,7 +435,7 @@ class DataMain extends Component {
                                 <Label htmlFor="text-input">Akta Kelahiran</Label>
                             </Col>
                             <Col xs="12" md="9">
-                              <Input type="file" id="file-input" placeholder = "Pilih File.. " onChange={this.onChangeAkta} accept="image/*" multiple={false}></Input>
+                              <Input type="file" id="file-input" placeholder = "Pilih File.. " onChange={this.onChangeAkta} multiple={false}></Input>
                             </Col>
                         </FormGroup>
                         <FormGroup row  className="m-2">
@@ -384,11 +443,32 @@ class DataMain extends Component {
                                 <Label htmlFor="text-input">Foto Terbaru</Label>
                             </Col>
                             <Col xs="12" md="9">
-                              <Input type="file" id="file-input" placeholder = "Pilih File.. " onChange={this.onChangeFotoTerbaru} accept="image/*" multiple={false}></Input>
+                              <Input type="file" id="file-input" placeholder = "Pilih File.. " onChange={this.onChangeFotoTerbaru} multiple={false}></Input>
                             </Col>
                         </FormGroup>
                     </Col>
                     <Col xs="12" sm="6">
+                        <FormGroup row  className="m-2">
+                            <Col md="3">
+                                <Label htmlFor="text-input">Hubungan Keluarga</Label>
+                            </Col>
+                            <Col xs="12" md="9">
+                                <Input type="select" name="select" id="select" onChange={this.onChanageHubunganKeluarga}>
+                                    <option disabled>Pilih Data</option>
+                                    <option selected = {(this.state.hubungan_keluarga === "Ayah") ? true : false} value="Ayah">Ayah</option>
+                                    <option selected = {(this.state.hubungan_keluarga === "Ibu") ? true : false} value="Ibu">Ibu</option>
+                                    <option selected = {(this.state.hubungan_keluarga === "Saudara Kandung") ? true : false} value="Saudara Kandung">Saudara Kandung</option>
+                                    <option selected = {(this.state.hubungan_keluarga === "Kakek / Nenek") ? true : false} value="Kakek / Nenek">Kakek / Nenek</option>
+                                    <option selected = {(this.state.hubungan_keluarga === "Paman / Bibi") ? true : false} value="Paman / Bibi">Paman / Bibi</option>
+                                    <option selected = {(this.state.hubungan_keluarga === "Cicit / Cucu") ? true : false} value="Cicit / Cucu">Cicit / Cucu</option>
+                                    <option selected = {(this.state.hubungan_keluarga === "Buyut") ? true : false} value="Buyut">Buyut</option>
+                                    <option selected = {(this.state.hubungan_keluarga === "Sepupu") ? true : false} value="Sepupu">Sepupu</option>
+                                    <option selected = {(this.state.hubungan_keluarga === "Saudara Tiri") ? true : false} value="Sadara Tiri">Sadara Tiri</option>
+                                    <option selected = {(this.state.hubungan_keluarga === "Mertua") ? true : false} value="Mertua">Mertua</option>
+                                    <option selected = {(this.state.hubungan_keluarga === "Ipar") ? true : false} value="Ipar">Ipar</option>
+                                </Input>
+                            </Col>
+                        </FormGroup>
                         <FormGroup row  className="m-2">
                             <Col md="3">
                                 <Label htmlFor="text-input">Airline</Label>

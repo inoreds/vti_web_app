@@ -20,6 +20,7 @@ import {
 } from '@coreui/react';
 // sidebar nav config
 import navigation from '../../_nav';
+import navigation_diamond from '../../_nav_diamond';
 // routes config
 import routes from '../../routes';
 
@@ -45,7 +46,7 @@ class DefaultLayout extends Component {
           <AppSidebar fixed compact display="lg">
             <AppSidebarHeader />
             <AppSidebarForm />
-            <AppSidebarNav navConfig={(this.props.user.role_id) ? navigation : navigation} {...this.props} />
+            <AppSidebarNav navConfig={(this.props.user.role == 'admin') ? navigation : navigation_diamond} {...this.props} />
             <AppSidebarFooter />
             <AppSidebarMinimizer />
           </AppSidebar>

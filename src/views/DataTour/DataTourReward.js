@@ -40,49 +40,51 @@ class DataTourReward extends Component {
         { Header: 'Tanggal Lahir', id: 'tgl_lahir', accessor: 'tgl_lahir', className: 'text-center'},
         { Header: 'Tanggal Transaksi', id: 'tgl_transaksi', accessor: 'tgl_transaksi', className: 'text-center'},
         { Header: 'Trip', id: 'trip', accessor: 'trip', className: 'text-center'},
+        { Header: 'KTP',id: 'ktp', accessor: 'ktp', style:{ 'whiteSpace': 'unset'},
+        Cell: row => {
+            return <div className="text-center">
+                  <a active block color="link" aria-pressed="true" target="_blank" href={config.api_endpoint + row.value}>{(row.value) ? <i className="fa fa-download"></i> : ''}</a>
+                </div>
+            }
+        },
+        { Header: 'Passport',id: 'passport', accessor: 'passport', style:{ 'whiteSpace': 'unset'},
+        Cell: row => {
+            return <div className="text-center">
+                  <a active block color="link" aria-pressed="true" target="_blank" href={config.api_endpoint + row.value}>{(row.value) ? <i className="fa fa-download"></i> : ''}</a>
+                </div>
+            }
+        },
         { Header: 'Foto Terbaru',id: 'foto_terbaru', accessor: 'foto_terbaru', style:{ 'whiteSpace': 'unset'},
         Cell: row => {
             return <div className="text-center">
-                  <Button active block color="link" aria-pressed="true" 
-                        onClick={()=> this.onClickViewFile("Foto Terbaru", row.value)}>
-                        Lihat Foto
-                    </Button>
+                  <a active block color="link" aria-pressed="true" target="_blank" href={config.api_endpoint + row.value}>{(row.value) ? <i className="fa fa-download"></i> : ''}</a>
                 </div>
             }
         },
         { Header: 'Akta Kelahiran',id: 'akta_kelahiran', accessor: 'akta_kelahiran', style:{ 'whiteSpace': 'unset'},
         Cell: row => {
             return <div className="text-center">
-                  <Button active block color="link" aria-pressed="true" 
-                        onClick={()=> this.onClickViewFile("Akta Kelahiran", row.value)}>
-                        Lihat Data
-                    </Button>
+                  <a active block color="link" aria-pressed="true" target="_blank" href={config.api_endpoint + row.value}>{(row.value) ? <i className="fa fa-download"></i> : ''}</a>
                 </div>
             }
         },
         { Header: 'Bukku Nikah',id: 'buku_nikah', accessor: 'buku_nikah', style:{ 'whiteSpace': 'unset'},
         Cell: row => {
             return <div className="text-center">
-                  <Button active block color="link" aria-pressed="true" 
-                        onClick={()=> this.onClickViewFile("Bukku Nikah", row.value)}>
-                        Lihat Data
-                    </Button>
+                  <a active block color="link" aria-pressed="true" target="_blank" href={config.api_endpoint + row.value}>{(row.value) ? <i className="fa fa-download"></i> : ''}</a>
                 </div>
             }
         },
         { Header: 'Rekening Tabungan',id: 'rekening_tabungan', accessor: 'rekening_tabungan', style:{ 'whiteSpace': 'unset'},
         Cell: row => {
             return <div className="text-center">
-                  <Button active block color="link" aria-pressed="true" 
-                        onClick={()=> this.onClickViewFile("Rekening Tabungan", row.value)}>
-                        Lihat Data
-                    </Button>
+                  <a active block color="link" aria-pressed="true" target="_blank" href={config.api_endpoint + row.value}>{(row.value) ? <i className="fa fa-download"></i> : ''}</a>
                 </div>
             }
         },
         { Header: 'Validasi Diamond',id: 'status_validasi_diamond', accessor: 'status_validasi_diamond',
             Cell: row => {
-                if (row.value === "0") {
+                if (row.value === "0" || row.value === 0) {
                     return (<div className="text-center">
                             <Button size="sm" className="btn-outline-dark icon mr-1 mb-1" outline color="primary"
                             onClick={() => this.setState({modal_konfirm_diamond:true,  verifikasi_type: 'approve', modal_konfirm_diamond_text: 'Lanjutkan Verifikasi Data?', id_data_manage: row.row.id})}><i className="fa fa-check"></i> Verifikasi</Button>
@@ -94,7 +96,7 @@ class DataTourReward extends Component {
         },
         { Header: 'Validasi Admin',id: 'status_validasi_admin', accessor: 'status_validasi_admin', show : ((this.props.user.role === 'admin') ? true : false),
             Cell: row => {
-                if (row.value === "0") {
+                if (row.value === "0" || row.value === 0) {
                     return (<div className="text-center">
                             <Button size="sm" className="btn-outline-dark icon mr-1 mb-1" outline color="primary"
                             onClick={() => this.setState({modal_konfirm_admin:true,  verifikasi_type: 'approve', modal_konfirm_admin_text: 'Lanjutkan Verifikasi Data?', id_data_manage: row.row.id})}><i className="fa fa-check"></i> Verifikasi</Button>

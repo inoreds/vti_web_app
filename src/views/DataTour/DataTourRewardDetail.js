@@ -88,8 +88,8 @@ class DataTourRewardDetail extends Component {
         const { data } = res;
         if (data.status === true) {
             const data_main = data.data;
-            const {ktp, passport} = data.data;
-            this.setState({data: data_main, ktp: ktp, passport: passport});
+            const {data_ktp, data_passport} = data.data;
+            this.setState({data: data_main, ktp: data_ktp, passport: data_passport});
         } else {
 
         }
@@ -113,6 +113,11 @@ class DataTourRewardDetail extends Component {
   }
 
   editMain(val){
+    const prevState = this.state.accordion;
+    
+    if(prevState[0] == false)
+      this.toggleAccordion(0);
+    
     if (val === false) {
       dataStore.setters.setDataTourMain({'form' : 'view', 'status': 'save', data: this.state.data});
     } else {
@@ -121,6 +126,11 @@ class DataTourRewardDetail extends Component {
   }
 
   editKtp(val){
+    const prevState = this.state.accordion;
+    
+    if(prevState[1] == false)
+      this.toggleAccordion(1);
+
     if (val === false) {
       dataStore.setters.setDataTourKtp({'form' : 'view', 'status': 'save', data: this.state.data});
     } else {
@@ -129,6 +139,11 @@ class DataTourRewardDetail extends Component {
   }
 
   editPassport(val){
+    const prevState = this.state.accordion;
+    
+    if(prevState[2] == false)
+      this.toggleAccordion(2);
+
     if (val === false) {
       dataStore.setters.setDataTourPassport({'form' : 'view', 'status': 'save', data: this.state.data});
     } else {
