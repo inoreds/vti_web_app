@@ -53,6 +53,23 @@ export default {
       name: 'Report',
       url: '/report',
       icon: 'icon-note',
+      children : [
+        {
+          name: 'Data Umum',
+          url : '/report/data_umum',
+          icon : 'icon-puzzle'
+        },
+        {
+          name : 'Data KTP',
+          url : '/report/data_ktp',
+          icon : 'icon-puzzle'
+        },
+        {
+          name : 'Data Passport',
+          url : '/report/data_passport',
+          icon : 'icon-puzzle'
+        }
+      ]
     },  
     {
       name: 'User',

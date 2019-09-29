@@ -72,6 +72,21 @@ const User = Loadable({
   loading: Loading,
 })
 
+const DataUmum = Loadable({
+  loader: () => import('./views/Report/DataUmum'),
+  loading: Loading,
+})
+
+const DataKTP = Loadable({
+  loader: () => import('./views/Report/DataKTP'),
+  loading: Loading,
+})
+
+const DataPassport = Loadable({
+  loader: () => import('./views/Report/DataPassport'),
+  loading: Loading,
+})
+
 const routes = [
   { path: '/', name: 'Home', component: DefaultLayout, exact: true },
   { path: '/login', name: 'Login', component: Login },
@@ -89,7 +104,9 @@ const routes = [
   { path: '/master/meal', name: 'Master Meal', component: Meal },
   { path: '/master/airline', name: 'Master Airline', component: Airline },
   { path: '/user', name: 'Data User', component: User },
-  
+  { path: '/report/data_umum', name: 'Report Umum', component: DataUmum },
+  { path: '/report/data_ktp', name: 'Report KTP', component: DataKTP },
+  { path: '/report/data_passport', name: 'Report Passport', component: DataPassport },
 ];
 
 export default routes;
