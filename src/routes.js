@@ -67,6 +67,11 @@ const Reward = Loadable({
   loading: Loading,
 })
 
+const User = Loadable({
+  loader: () => import('./views/User/User'),
+  loading: Loading,
+})
+
 const routes = [
   { path: '/', name: 'Home', component: DefaultLayout, exact: true },
   { path: '/login', name: 'Login', component: Login },
@@ -83,6 +88,7 @@ const routes = [
   { path: '/master/batch', name: 'Master Batch', component: Batch },
   { path: '/master/meal', name: 'Master Meal', component: Meal },
   { path: '/master/airline', name: 'Master Airline', component: Airline },
+  { path: '/user', name: 'Data User', component: User },
   
 ];
 

@@ -135,7 +135,7 @@ class MasterViewer extends Component {
             let type = 'post';
 
             if (this.state.save_update === 'update') {
-                url = this.props.url.url_update_data
+                url = this.props.url.url_update_data + `/${this.state.id_delete_edit}`
                 notify_status = "Diupdate"
                 type = 'patch';
             }
@@ -403,7 +403,8 @@ class MasterViewer extends Component {
                                                                             <div>
                                                                             {child.property.map((radio, k) => {  
                                                                                 return <FormGroup check inline key={k}>
-                                                                                            <Input className="form-check-input" type="radio" id={'inline-radio'+k} name={child.id} value={child.value[k]} />
+                                                                                            <Input className="form-check-input" type="radio" id={'inline-radio'+k} name={child.id} value={child.value[k]} 
+                                                                                                        defaultChecked={(this.state.data_per !== null && this.state.data_per[child.id] === child.value[k]) ? true : false}/>
                                                                                             <Label className="form-check-label" check htmlFor={'inline-radio'+k}>{child.property[k]}</Label>
                                                                                         </FormGroup>
                                                                             })}
