@@ -36,7 +36,7 @@
     "form-serialize": "^0.7.2",
     "highcharts": "^6.1.1",
     "jquery": "^3.3.1",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "moment-with-locales-es6": "^1.0.1",
     "prop-types": "^15.6.2",
     "queueing-subject": "^0.3.0",
